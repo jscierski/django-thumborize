@@ -47,7 +47,7 @@ class ThumborURL(object):
                               **self.options)
 
     def _build_filter_params(self, *params):
-        params = map(str, params)
+        params = list(map(str, params))
         params = ",".join(params)
         return "({})".format(params)
 
@@ -65,7 +65,7 @@ class ThumborURL(object):
         return filters_dict
 
     def _parse_filters(self, filters):
-        if isinstance(filters, basestring):
+        if isinstance(filters, str):
             return self._filters_dict(filters.split(":"))
         elif isinstance(filters, dict):
             return filters
@@ -75,7 +75,7 @@ class ThumborURL(object):
 
     @property
     def filter_list(self):
-        return ["{k}{v}".format(k=key, v=value) for key, value in self.filters.items()]
+        return ["{k}{v}".format(k=key, v=value) for key, value in list(self.filters.items())]
 
     def add_filters(self, *filters, **kwfilters):
         parsed = self._parse_filters(filters)
